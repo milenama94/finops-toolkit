@@ -493,30 +493,8 @@ function Export-ResultsToExcel {
         [string]$ExcelFilePath
     )
 
-    # Map resources to ensure all expected fields are included
-    $mappedData = $AllResources | ForEach-Object {
-        [PSCustomObject]@{
-            ResourceId                 = $_.ResourceId
-            ResourceName               = $_.ResourceName
-            x_ResourceType             = $_.x_ResourceType
-            x_ResourceGroupName        = $_.x_ResourceGroupName
-            SubAccountId               = $_.SubAccountId
-            SubAccountName             = $_.SubAccountName
-            x_RecommendationId          = $_.x_RecommendationId
-            x_RecommendationCategory    = $_.x_RecommendationCategory
-            x_RecommendationImpact      = $_.x_RecommendationImpact
-            x_RecommendationProvider    = $_.x_RecommendationProvider
-            x_RecommendationTypeId      = $_.x_RecommendationTypeId
-            x_RecommendationControl     = $_.x_RecommendationControl
-            x_RecommendationMaturityLevel = $_.x_RecommendationMaturityLevel
-            x_RecommendationDescription = $_.x_RecommendationDescription
-            x_RecommendationSolution    = $_.x_RecommendationSolution
-            x_RecommendationDetails     = $_.x_RecommendationDetails
-            x_RecommendationDate        = $_.x_RecommendationDate
-        }
-    }
-    
-    $mappedData | Export-Excel -Path $ExcelFilePath -WorksheetName 'Recommendations' -AutoSize -TableName 'Table1' -TableStyle $script:settings.defaultSettings.excelTableStyle
+    $AllResources | Export-Excel -Path $ExcelFilePath -WorksheetName 'Recommendations' -AutoSize -TableName 'Table1' -TableStyle $script:settings.defaultSettings.excelTableStyle
+
     Write-Log -Message "Results exported to Excel file: $ExcelFilePath" -Level "INFO"
 
     if ($AssessmentFilePath) {
